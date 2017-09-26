@@ -1,5 +1,5 @@
 # Create Database
-DROP DATABASE github_stats;
+DROP DATABASE IF EXISTS github_stats;
 CREATE DATABASE IF NOT EXISTS github_stats;
 USE github_stats;
 
