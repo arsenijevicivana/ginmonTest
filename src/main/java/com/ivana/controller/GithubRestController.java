@@ -41,8 +41,7 @@ public class GithubRestController {
 	final static String uriUser = "https://api.github.com/users/{user}/repos";
 	final static String uriLang = "https://api.github.com/repos/{full-name}/languages";
 	
-	final static String token = "7bf2a688205ba8736e8c6eefebbb673152f923f0";
-    final static String tokenParam = "?state=closed&access_token={token}";
+    final static String tokenParam = "?state=closed";
     
 	RestTemplate restTemplate = new RestTemplate();
 
@@ -126,7 +125,6 @@ public class GithubRestController {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("user", user);
-        params.put("token", token);
 
 		String repos = restTemplate.getForObject(uriUser + tokenParam, String.class, params);
 		log.info("Json for Repositories is: " + repos);
@@ -145,7 +143,6 @@ public class GithubRestController {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("full-name", fullname);
-        params.put("token", token);
 		
         String jsonResponse = restTemplate.getForObject(uriLang  + tokenParam, String.class, params);
 		return jsonResponse;
