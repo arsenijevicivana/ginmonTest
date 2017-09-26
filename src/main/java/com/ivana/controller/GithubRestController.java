@@ -8,10 +8,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
@@ -36,7 +40,10 @@ public class GithubRestController {
 	/** URLs for Github API **/
 	final static String uriUser = "https://api.github.com/users/{user}/repos";
 	final static String uriLang = "https://api.github.com/repos/{full-name}/languages";
-
+	
+	final static String token = "7bf2a688205ba8736e8c6eefebbb673152f923f0";
+    final static String tokenParam = "?state=closed&access_token={token}";
+    
 	RestTemplate restTemplate = new RestTemplate();
 
 	/**
@@ -119,7 +126,9 @@ public class GithubRestController {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("user", user);
-		String repos = restTemplate.getForObject(uriUser, String.class, params);
+        params.put("token", token);
+
+		String repos = restTemplate.getForObject(uriUser + tokenParam, String.class, params);
 		log.info("Json for Repositories is: " + repos);
 		return JsonHelper.parseRepositories(repos);
 	}
@@ -136,7 +145,9 @@ public class GithubRestController {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("full-name", fullname);
-		String jsonResponse = restTemplate.getForObject(uriLang, String.class, params);
+        params.put("token", token);
+		
+        String jsonResponse = restTemplate.getForObject(uriLang  + tokenParam, String.class, params);
 		return jsonResponse;
 	}
 
