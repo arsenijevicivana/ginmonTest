@@ -1,0 +1,6 @@
+language: java
+jdk: oraclejdk8
+service:
+  - mysql
+before_script:
+  - mysql -u root --password="" < db.sql
